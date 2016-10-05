@@ -6,6 +6,7 @@ public class Character : MonoBehaviour {
     public Transform point1;
     public Transform point2;
     public float castDistance = 0.1f;
+    public float moveSpeed = 20f;
 
     private int surfaceLayerIdx;
     private bool onGround;
@@ -27,8 +28,10 @@ public class Character : MonoBehaviour {
     {
         if (c.gameObject.layer == surfaceLayerIdx)
         {
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
             Debug.Log("OnGround");
             onGround = true;
+            rb.velocity = new Vector2(rb.velocity.x, 0);
         }
     }
 
@@ -41,12 +44,27 @@ public class Character : MonoBehaviour {
         }
     }
 
+    void FixedUpdate ()
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        float motion = Input.GetAxis("Horizontal");
+        float move = motion * moveSpeed * Time.fixedDeltaTime;
+        rb.velocity = new Vector2(move, rb.velocity.y);
+    }
 	// Update is called once per frame
 	void Update () {
-        if (onGround && Input.GetButtonDown("Jump"))
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (Input.GetButtonDown("Jump"))
         {
-            Debug.Log("Jump");
-            GetComponent<Rigidbody2D>().AddForce(Vector2.up * 300);
+            if (onGround)
+            {
+                Debug.Log("Jump");
+                rb.AddForce(Vector2.up * 300);
+            }
+            else
+            {
+                Debug.Log("Not on ground");
+            }
         }
 	}
 }
