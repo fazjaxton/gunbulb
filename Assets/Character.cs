@@ -7,12 +7,14 @@ public class Character : MonoBehaviour {
     public float jumpForce = 300f;
     public float fireRate = 5f;
     public Bullet bullet;
+    public int jumps = 2;
 
     private int surfaceLayerIdx;
     private bool onGround;
     private Sprite sprite;
     private float lastFire = 0;
     private float dirFacing = 1f;
+    private int jumpsRemaining;
 
     void faceRight() {
         dirFacing = 1f;
@@ -27,6 +29,7 @@ public class Character : MonoBehaviour {
 	void Start () {
         surfaceLayerIdx = LayerMask.NameToLayer("Surface");
         sprite = GetComponent<Sprite>();
+        faceRight();
 	}
 
     void spawnBullet () {
@@ -55,6 +58,7 @@ public class Character : MonoBehaviour {
         if (c.gameObject.layer == surfaceLayerIdx) {
             Debug.Log("InAir");
             onGround = false;
+            jumpsRemaining = jumps - 1;
         }
     }
 
@@ -73,11 +77,9 @@ public class Character : MonoBehaviour {
 	void Update () {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (Input.GetButtonDown("Jump")) {
-            if (onGround) {
-                Debug.Log("Jump");
+            if (onGround || jumpsRemaining > 0) {
                 rb.AddForce(Vector2.up * jumpForce);
-            } else {
-                Debug.Log("Not on ground");
+                jumpsRemaining--;
             }
         }
         if (Input.GetButton("Fire1")) {

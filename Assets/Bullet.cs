@@ -7,9 +7,10 @@ public class Bullet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
-	}
-	
+        /* Bullets die after existing for a second */
+        Destroy(this.gameObject, 1.0f);
+    }
+
     public void setDir (float dir)
     {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
@@ -22,6 +23,7 @@ public class Bullet : MonoBehaviour {
         rb.velocity = new Vector2(x, 0);
         Debug.Log(rb.velocity);
     }
+
 
     // Update is called once per frame
     void Update () {
