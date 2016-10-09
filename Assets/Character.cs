@@ -48,7 +48,6 @@ public class Character : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D c) {
         if (c.gameObject.layer == surfaceLayerIdx) {
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            Debug.Log("OnGround");
             onGround = true;
             rb.velocity = new Vector2(rb.velocity.x, 0);
         }
@@ -56,7 +55,6 @@ public class Character : MonoBehaviour {
 
 	void OnTriggerExit2D (Collider2D c) {
         if (c.gameObject.layer == surfaceLayerIdx) {
-            Debug.Log("InAir");
             onGround = false;
             jumpsRemaining = jumps - 1;
         }
