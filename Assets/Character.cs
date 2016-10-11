@@ -76,6 +76,7 @@ public class Character : MonoBehaviour {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (Input.GetButtonDown("Jump")) {
             if (onGround || jumpsRemaining > 0) {
+                rb.velocity = new Vector2(rb.velocity.x, 0);
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpsRemaining--;
             }

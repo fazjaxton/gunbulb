@@ -41,10 +41,11 @@ public class EnemyManager : MonoBehaviour {
         float startY = getRandY();
         float endY =   getRandY();
 
-        Vector3 pos = new Vector3(startX, startY, 0);
-        Enemy e = (Enemy)Instantiate(enemyPrefab);
+        Vector3 start = new Vector3(startX, startY, 0);
+        Vector3 end = new Vector3(endX, endY, 0);
+        Enemy e = (Enemy)Instantiate(enemyPrefab, start, Quaternion.identity);
         e.gameObject.transform.SetParent(this.gameObject.transform, true);
-        e.setPath(new Vector3(startX, startY), new Vector3(endX, endY, 0));
+        e.setPath(start, end);
     }
 
     void checkSpawn() {
