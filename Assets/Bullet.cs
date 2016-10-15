@@ -10,8 +10,6 @@ public class Bullet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        /* Bullets die after existing for a second */
-        Destroy(this.gameObject, 1.0f);
         enemyLayer = LayerMask.NameToLayer("Enemy");
     }
 

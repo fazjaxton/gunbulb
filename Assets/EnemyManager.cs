@@ -4,12 +4,14 @@ using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour {
 
-    public Enemy[] enemyPrefabs = new Enemy[0];
+    public Derp[] derpPrefabs = new Derp[0];
+    public float spawnInterval = 5.0f;
+
     private Vector3 upperRight = new Vector3(1.0f, 1.0f);
     private Vector3 upperLeft =  new Vector3(0f, 1.0f);
     private Vector3 lowerRight = new Vector3(1.0f, 0f);
     private float lastSpawn;
-    private float spawnInterval = 5.0f;
+    private float maxSpawn;
 
     float getRightPos() {
         Vector3 point = Camera.main.ViewportToWorldPoint(upperRight);
@@ -27,14 +29,14 @@ public class EnemyManager : MonoBehaviour {
         return Random.Range(bottom, top);
     }
 
-    Enemy pickRandomEnemy() {
-        int idx = Random.Range(0, enemyPrefabs.Length);
-        return enemyPrefabs[idx];
+    Derp pickRandomDerp() {
+        int idx = Random.Range(0, derpPrefabs.Length);
+        return derpPrefabs[idx];
     }
 
-    void spawnEnemy() {
-        Enemy enemyPrefab = pickRandomEnemy();
-        Sprite s = enemyPrefab.gameObject.GetComponent<SpriteRenderer>().sprite;
+    void spawnDerp() {
+        Derp derpPrefab = pickRandomDerp();
+        Sprite s = derpPrefab.gameObject.GetComponent<SpriteRenderer>().sprite;
 
         float startX = getRightPos() + s.border.y / 2;
         float endX   = getLeftPos() - s.border.y / 2;
@@ -43,16 +45,22 @@ public class EnemyManager : MonoBehaviour {
 
         Vector3 start = new Vector3(startX, startY, 0);
         Vector3 end = new Vector3(endX, endY, 0);
-        Enemy e = (Enemy)Instantiate(enemyPrefab, start, Quaternion.identity);
+        Derp e = (Derp)Instantiate(derpPrefab, start, Quaternion.identity);
         e.gameObject.transform.SetParent(this.gameObject.transform, true);
         e.setPath(start, end);
     }
 
     void checkSpawn() {
-        if (getRightPos() >= lastSpawn + spawnInterval) {
-            spawnEnemy();
+        float pos = getRightPos();
+
+        if (pos >= lastSpawn + spawnInterval && pos < maxSpawn) {
+            spawnDerp();
             lastSpawn += spawnInterval;
         }
+    }
+
+    public void setSpawnMax(float pos) {
+        maxSpawn = pos;
     }
 
 	// Use this for initialization
