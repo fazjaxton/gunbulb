@@ -14,6 +14,7 @@ public class Cheesevis : MonoBehaviour {
     private Vector3 startPos;
     private Transform weaponSpawn;
     private float walkDir;
+    private Enemy enemy;
 
     void throwWeapon() {
         int idx = Random.Range(0, weapons.Length);
@@ -29,6 +30,7 @@ public class Cheesevis : MonoBehaviour {
         weaponSpawn = transform.Find("WeaponSpawn");
         startPos = transform.position;
         walkDir = 1;
+        enemy = GetComponent<Enemy>();
 	}
 
     private float time = 0f;
@@ -36,7 +38,7 @@ public class Cheesevis : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         time += Time.deltaTime;
-        if (time >= 2.0f) {
+        if (time >= 2.0f && !enemy.isDead()) {
             throwWeapon();
             time -= 2.0f;
         }

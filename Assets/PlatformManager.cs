@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class PlatformManager : MonoBehaviour {
@@ -53,6 +54,8 @@ public class PlatformManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            SceneManager.LoadScene("title", LoadSceneMode.Single);
+        }
 	}
 }

@@ -9,15 +9,15 @@ public class Boss : MonoBehaviour {
 
     IEnumerator _bossDead() {
         yield return new WaitForSeconds(2);
+        character.disableControl(-1);
+        Rigidbody2D rb = character.GetComponent<Rigidbody2D>();
+        rb.velocity = Vector3.zero;
         victory.GetComponent<SpriteRenderer>().enabled = true;
         pylonManager.setX(character.transform.position.x);
         pylonManager.pylonShower();
     }
 
     public void bossDead() {
-        character.disableControl(-1);
-        Rigidbody2D rb = character.GetComponent<Rigidbody2D>();
-        rb.velocity = Vector3.zero;
         StartCoroutine("_bossDead");
     }
 
